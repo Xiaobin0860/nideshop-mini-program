@@ -22,7 +22,7 @@ function formatNumber(n) {
  * 封封微信的的request
  */
 function request(url, data = {}, method = "GET") {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     /*
     wx.request({
       url: url,
@@ -83,12 +83,11 @@ function request(url, data = {}, method = "GET") {
         data: data
       },
       success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        console.log(res)
+        console.log('[云函数] nideshop [' + url + '] result: ', res.result)
         resolve(res.result)
       },
       fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
+        console.error('[云函数] nideshop [' + url + '] 调用失败', err)
         reject(err)
       }
     })
@@ -99,12 +98,12 @@ function request(url, data = {}, method = "GET") {
  * 检查微信会话是否过期
  */
 function checkSession() {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     wx.checkSession({
-      success: function () {
+      success: function() {
         resolve(true);
       },
-      fail: function () {
+      fail: function() {
         reject(false);
       }
     })
@@ -115,9 +114,9 @@ function checkSession() {
  * 调用微信登录
  */
 function login() {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     wx.login({
-      success: function (res) {
+      success: function(res) {
         if (res.code) {
           //登录远程服务器
           console.log(res)
@@ -126,7 +125,7 @@ function login() {
           reject(res);
         }
       },
-      fail: function (err) {
+      fail: function(err) {
         reject(err);
       }
     });
@@ -134,14 +133,14 @@ function login() {
 }
 
 function getUserInfo() {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function(resolve, reject) {
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         resolve(res);
       },
-      fail: function (err) {
+      fail: function(err) {
         reject(err);
       }
     })
@@ -179,5 +178,3 @@ module.exports = {
   login,
   getUserInfo,
 }
-
-
