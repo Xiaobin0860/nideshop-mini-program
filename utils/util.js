@@ -23,6 +23,7 @@ function formatNumber(n) {
  */
 function request(url, data = {}, method = "GET") {
   return new Promise(function (resolve, reject) {
+    /*
     wx.request({
       url: url,
       data: data,
@@ -72,6 +73,23 @@ function request(url, data = {}, method = "GET") {
       fail: function (err) {
         reject(err)
         console.log("failed")
+      }
+    })
+    */
+    wx.cloud.callFunction({
+      name: 'nideshop',
+      data: {
+        url: url,
+        data: data
+      },
+      success: res => {
+        console.log('[云函数] [login] user openid: ', res.result.openid)
+        console.log(res)
+        resolve(res.result)
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+        reject(err)
       }
     })
   });
